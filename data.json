@@ -1,0 +1,65 @@
+{
+  "notes": {
+    "FBL": "https://drive.google.com/drive/folders/1sUFS6DI9P81jcyUuVNxUpq5nJrGIs6qU?usp=drive_link",
+    "DIC": "https://drive.google.com/drive/folders/1_RgJEFgl-SScUbceL2wCYfSBkETI0X2b?usp=drive_link",
+    "IEE": "https://drive.google.com/drive/folders/1NY0dMWJDbq9v6kdEDgiHbtz2D-hfFs3s?usp=drive_link",
+    "IEEL": "https://drive.google.com/drive/folders/122ggjYsoBGvZSfKf9pWEtZO3vA-hblRG?usp=drive_link",
+    "MED": "https://drive.google.com/drive/folders/1zkqz2mZ92s5r2pV-dQF5imkZn3v6r8WM?usp=drive_link",
+    "GE": "https://drive.google.com/drive/folders/1-PQF_F_73C02-FkQygKEbV9X1_efMVzC?usp=drive_link",
+    "PF": "https://drive.google.com/drive/folders/1n6TLyY2f0gxQdFg2KMxwzfTNaEDCQP4k?usp=drive_link",
+    "PFL": "https://drive.google.com/drive/folders/1yMC1Jsb6o0mKZkiZCP3EZuRcqsAYmo6h?usp=drive_link",
+    "CFE": "https://drive.google.com/drive/folders/19uDyQLWmNbC6_ulj0QLcX6CaCBEkwJjS?usp=drive_link"
+  },
+  "syllabus": {
+    "FBL": "https://drive.google.com/drive/folders/10R-hwx3yt-Iuk-AWmZnCCXJuvx4ySa4z?usp=drive_link",
+    "DIC": "",
+    "IEE": "https://drive.google.com/drive/folders/1nQQz1OFIll7ILEZBck1Qou2Ng4-aZ8GV?usp=drive_link",
+    "IEEL": "https://drive.google.com/drive/folders/18YmLfCiTNF3VgTPT2vqgrl5rWwXXhJ6f?usp=drive_link",
+    "MED": "https://drive.google.com/drive/folders/1G_SJKox_jt6g1MGpsAzllJbIAah_le-B?usp=drive_link",
+    "GE": "https://drive.google.com/drive/folders/14SDC566QwyZlLPu8-klDU1lSuLr2QIkX?usp=drive_link",
+    "PF": "https://drive.google.com/drive/folders/1MLkbipCXG55CYntRXOU2iV7a-UZ7hWOY?usp=drive_link",
+    "PFL": "https://drive.google.com/drive/folders/1YdIeLrY7n4ir_hyEPykqCRT-yz5r-L1q?usp=drive_link",
+    "CFE": "https://drive.google.com/drive/folders/17VHevNnc-3r82ZwvUe6XlvVyc16vus__?usp=drive_link"
+  },
+  "books": {
+    "ADD_BOOK_NAME": "https://drive.google.com/drive/folders/1hVm_6ZLMWheTmT5uaRxnDBzZTDRinA-s?usp=sharing"
+  },
+  "schedule": {
+    "Saturday": [
+      { "course": "IEE", "room": "612", "time": "9:45 AM – 11:00 AM" },
+      { "course": "FBL", "room": "611", "time": "11:50 AM – 1:30 PM" },
+      { "course": "MED", "room": "608", "time": "2:30 PM – 3:45 PM" },
+      { "course": "GE", "room": "611", "time": "3:45 PM – 5:00 PM" }
+    ],
+    "Sunday": [],
+    "Monday": [
+      { "course": "PFL", "room": "904", "time": "8:30 AM – 10:35 AM" },
+      { "course": "DIC", "room": "612", "time": "11:00 AM – 12:15 PM" },
+      { "course": "PF", "room": "612", "time": "12:15 PM – 1:30 PM" }
+    ],
+    "Tuesday": [
+      { "course": "PF", "room": "404", "time": "8:30 AM – 9:45 AM" },
+      { "course": "DIC", "room": "404", "time": "9:45 AM – 11:00 AM" },
+      { "course": "IEEL", "room": "506", "time": "11:00 AM – 1:05 PM" }
+    ],
+    "Wednesday": [
+      { "course": "CFE", "room": "902", "time": "11:00 AM – 1:05 PM" },
+      { "course": "GE", "room": "611", "time": "2:30 PM – 3:45 PM" },
+      { "course": "IEE", "room": "612", "time": "3:45 PM – 5:00 PM" }
+    ],
+    "Thursday": [],
+    "Friday": []
+  },
+  "notice": "Welcome bro! Update this notice text anytime.",
+  "questions": {
+    "FBL": "",
+    "DIC": "",
+    "IEE": "",
+    "IEEL": "",
+    "MED": "",
+    "GE": "",
+    "PF": "",
+    "PFL": "",
+    "CFE": ""
+  }
+}
