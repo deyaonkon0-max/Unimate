@@ -3,7 +3,9 @@ import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import csv
+import threading
 
+from flask import Flask
 import telebot
 from telebot import types
 import google.generativeai as genai
@@ -11,10 +13,7 @@ import google.generativeai as genai
 # ================== CONFIG ==================
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-ADMIN_ID = int(os.getenv("ADMIN_ID", "5869404064"))  # default if not set
-
-if not TELEGRAM_TOKEN or not GEMINI_API_KEY:
-    raise ValueError("❌ TELEGRAM_TOKEN and GEMINI_API_KEY must be set as environment variables.")
+ADMIN_ID = int(os.getenv("ADMIN_ID", "0"))
 
 TIMEZONE = ZoneInfo("Asia/Dhaka")
 
@@ -30,7 +29,6 @@ USERS_FILE = "users.csv"
 MESSAGES_FILE = "messages.csv"
 
 def save_user(user):
-    """Save user info to CSV if new"""
     try:
         with open(USERS_FILE, "r", encoding="utf-8") as f:
             if str(user.id) in f.read():
@@ -41,15 +39,12 @@ def save_user(user):
     with open(USERS_FILE, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow([user.id, user.username, user.first_name])
-    print(f"✅ New user saved: {user.username} ({user.id})")
 
 def log_message(user, message_text):
-    """Log each message to CSV and notify admin"""
     save_user(user)
     with open(MESSAGES_FILE, "a", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
         writer.writerow([datetime.now(), user.id, user.username, user.first_name, message_text])
-    # Notify admin
     try:
         bot.send_message(
             ADMIN_ID,
@@ -76,18 +71,14 @@ def list_users(message):
     if message.from_user.id != ADMIN_ID:
         bot.send_message(message.chat.id, "⚠️ You are not allowed to see this.")
         return
-
     users_info = load_users()
     if not users_info:
         bot.send_message(message.chat.id, "No users registered yet.")
         return
-
     lines = ["Registered users:"]
     for user_id, info in users_info.items():
         lines.append(f"{info['name']} (@{info.get('username', 'no username')}) - {user_id}")
     bot.send_message(message.chat.id, "\n".join(lines))
-
-# ============================================
 
 # ========== DATA LOADING ==========
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data.json")
@@ -99,7 +90,6 @@ def load_data():
 data = load_data()
 COURSE_CODES = list(data.get("notes", {}).keys()) or ["FBL","DIC","IEE","IEEL","MED","GE","PF","PFL","CFE"]
 DAYS_ORDER = ["Saturday","Sunday","Monday","Tuesday","Wednesday","Thursday","Friday"]
-# ==================================
 
 # ========== HELPERS ==========
 def today_dayname():
@@ -130,7 +120,6 @@ def build_day_schedule_text(day_name: str):
     for cls in entries:
         out.append(f"  • {cls['course']} — {cls['room']} — {cls['time']}")
     return "\n".join(out)
-# ==================================
 
 # ========== COMMANDS ==========
 @bot.message_handler(commands=["start", "help"])
@@ -195,7 +184,6 @@ def notice_cmd(message):
     log_message(message.from_user, "/notice")
     bot.send_message(message.chat.id, f"📢 Notice:\n{data.get('notice','No notice yet.')}")
 
-# ========= SYLLABUS =========
 @bot.message_handler(commands=["syllabus"])
 def syllabus_cmd(message):
     log_message(message.from_user, "/syllabus")
@@ -214,7 +202,6 @@ def on_syllabus_click(call):
     else:
         bot.send_message(call.message.chat.id, f"No syllabus link set yet for {code}. (Update data.json)")
 
-# ========= QUESTIONS =========
 @bot.message_handler(commands=["questions"])
 def questions_cmd(message):
     log_message(message.from_user, "/questions")
@@ -233,8 +220,6 @@ def on_question_click(call):
     else:
         bot.send_message(call.message.chat.id, f"No question link set yet for {code}. (Update data.json)")
 
-# ==================================
-
 # ========== AI CHAT (fallback) ==========
 @bot.message_handler(func=lambda m: m.text and not m.text.startswith("/"))
 def ai_chat(message):
@@ -249,9 +234,20 @@ def ai_chat(message):
         bot.send_message(message.chat.id, resp.text.strip() if resp.text else "Couldn't generate a reply.")
     except Exception as e:
         bot.send_message(message.chat.id, f"⚠️ AI error: {e}")
-# ==================================
 
-# ========== RUN ==========
+# ========== FLASK SERVER ==========
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "✅ UniBot is running on Render!"
+
+def run_bot():
+    print("🤖 Bot is running…")
+    bot.polling(none_stop=True, timeout=60)
+
 if __name__ == "__main__":
-    print("🤖 Bot is running… Press Ctrl+C to stop.")
-    bot.polling()
+    # Run bot in a separate thread
+    threading.Thread(target=run_bot).start()
+    # Start Flask server
+    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)))
