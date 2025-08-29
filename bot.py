@@ -226,12 +226,24 @@ def ai_chat(message):
     log_message(message.from_user, message.text)
     try:
         prompt = (
-            "You are a friendly Bangladeshi university assistant bot. Keep replies concise, helpful, and respectful. "
-            "If user asks about notes/books/schedule/notice, guide them to the right commands too.\n\n"
-            f"User: {message.text}"
+            "You are a super friendly Bangladeshi university student bot 😎. "
+            "Always reply casually like a close buddy, use emojis, jokes, and fun tone. "
+            "Don’t be too formal. If someone asks about notes/books/schedule/notice, guide them to the right commands too. "
+            "Keep replies short, chatty, and human-like.\n\n"
+            f"User: {message.text}\nBot:"
         )
+
         resp = model.generate_content(prompt)
-        bot.send_message(message.chat.id, resp.text.strip() if resp.text else "Couldn't generate a reply.")
+
+        # Make sure we always get some reply
+        reply = ""
+        if hasattr(resp, "text") and resp.text:
+            reply = resp.text.strip()
+        else:
+            reply = str(resp)
+
+        bot.send_message(message.chat.id, reply)
+
     except Exception as e:
         bot.send_message(message.chat.id, f"⚠️ AI error: {e}")
 
