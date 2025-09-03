@@ -256,7 +256,13 @@ def home():
 
 def run_bot():
     print("🤖 Bot is running…")
-    bot.polling(none_stop=True, timeout=60)
+    while True:
+        try:
+            bot.polling(none_stop=True, timeout=60)
+        except Exception as e:
+            print(f"⚠️ Bot crashed: {e}")
+            import time
+            time.sleep(5)  # wait a bit before restarting
 
 if __name__ == "__main__":
     # Run bot in a separate thread
